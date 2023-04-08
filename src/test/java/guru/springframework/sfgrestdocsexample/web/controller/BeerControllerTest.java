@@ -35,10 +35,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 // these first 2 autoconfigure de documenting part
 @ExtendWith(RestDocumentationExtension.class)
-//@AutoConfigureRestDocs(uriScheme = "https", uriHost = "dev.clayrisse", uriPort = 80)
+@AutoConfigureRestDocs(uriScheme = "https", uriHost = "dev.clayrisse", uriPort = 80)
 //al this configuration can disappear, and it will generate an automatic one like this:
 // do: clean and package to the curl-request.adoc change
-@AutoConfigureRestDocs()
+//@AutoConfigureRestDocs()
 @WebMvcTest(BeerController.class)
 @ComponentScan(basePackages = "guru.springframework.sfgrestdocsexample.web.mappers")
 class BeerControllerTest {
@@ -61,7 +61,7 @@ class BeerControllerTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 // from here will be the documenting part-----------
-                .andDo(document("v1/beer",
+                .andDo(document("v1/beer-get",
                     pathParameters(
                         parameterWithName("beerId").description("UUID of desire beer to get")
                     ),
@@ -95,7 +95,7 @@ class BeerControllerTest {
                 .content(beerDtoJson))
                 .andExpect(status().isCreated())
                 .andDo(
-                   document("v1/beer",
+                   document("v1/beer-new",
                         requestFields(
                             //the "ignored" ones are handle by the server
                             //the snippets with the constrains can be found in "reques-fields.snippet"
@@ -116,7 +116,7 @@ class BeerControllerTest {
         BeerDto beerDto =  getValidBeerDto();
         String beerDtoJson = objectMapper.writeValueAsString(beerDto);
 
-        mockMvc.perform(put("/api/v1/beer/" + UUID.randomUUID().toString())
+        mockMvc.perform(put("/api/v1/beer/" + UUID.randomUUID())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(beerDtoJson))
                 .andExpect(status().isNoContent());

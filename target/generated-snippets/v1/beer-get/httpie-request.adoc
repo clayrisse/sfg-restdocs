@@ -1,0 +1,5 @@
+[source,bash]
+----
+$ http GET 'https://dev.clayrisse:80/api/v1/beer/fc87f63d-e677-4b79-9b29-ec8b407f17b9?iscold=yes' \
+    'Accept:application/json'
+----
