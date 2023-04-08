@@ -25,6 +25,8 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 //import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -52,12 +54,25 @@ class BeerControllerTest {
                 .param("iscold", "yes")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
+                // from here will be the documenting part-----------
                 .andDo(document("v1/beer",
                     pathParameters(
                         parameterWithName("beerId").description("UUID of desire beer to get")
                     ),
                     requestParameters(
-                            parameterWithName("iscold").description("Is BeerCold Query param")
+                        parameterWithName("iscold").description("Is Beer Cold Query param")
+                    ),
+                    responseFields(
+                            //is necessary to document EVERY property! else, it will throw an error
+                       fieldWithPath("id").description("Id of Beer"),
+                       fieldWithPath("version").description("Version number"),
+                       fieldWithPath("createdDate").description("Date Created"),
+                       fieldWithPath("lastModifiedDate").description("Date Updated"),
+                       fieldWithPath("beerName").description("Beer Name"),
+                       fieldWithPath("beerStyle").description("Beer Style"),
+                       fieldWithPath("upc").description("UPC of Beer"),
+                       fieldWithPath("price").description("Price"),
+                       fieldWithPath("quantityOnHand").description("Quantity On Hand")
                     )
                 ));
     }

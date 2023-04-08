@@ -2,6 +2,6 @@
 |Parameter|Description
 
 |`+iscold+`
-|Is BeerCold Query param
+|Is Beer Cold Query param
 
 |===
